@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TrainingProject2</string>
+    <string name="res_text">"Rating: %1$.1f Reviews: 1"</string>
+</resources>
