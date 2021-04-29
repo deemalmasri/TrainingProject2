@@ -51,7 +51,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.My_Vie
         Bobj.Business business_obj = (Bobj.Business) resturentList.get(position);
         holder.displayName.setText(business_obj.getName());
         holder.rating.setText(holder.itemView.getContext().getString(R.string.res_text,
-                business_obj.getRating()));
+                business_obj.getRating(),business_obj.getReview_count()));
         Picasso.get().load(business_obj.getImage_url()).into(holder.resPic);
 
     }
