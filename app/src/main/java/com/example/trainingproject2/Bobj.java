@@ -19,13 +19,15 @@ class Bobj {
         private String name;
         private String image_url;
         private Float rating;
+        private String price ;
 
 
-        public Business(String id, String name, String image_url, Float rating) {
+        public Business(String id, String name, String image_url, Float rating, String price) {
             this.id = id;
             this.name = name;
             this.image_url = image_url;
             this.rating = rating;
+            this.price = price;
         }
 
         public String getId() {
@@ -61,5 +63,12 @@ class Bobj {
         }
 
 
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
     }
 }

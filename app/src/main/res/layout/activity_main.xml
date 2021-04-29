@@ -17,14 +17,83 @@
         android:queryHint="Search "
         />
 
+    <LinearLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@+id/search_view"
+        android:padding="8dp"
+        android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/listView1"
-                android:layout_below="@+id/search_view"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cost effective"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold">
+
+        </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Cost_effectiveView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 >
-            </ListView>
+            </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rlMain2"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@+id/rlMain"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bit Priceir "
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold">
+
+        </TextView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Bit_PriceirveView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/rlMain3"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@+id/rlMain2"
+        android:padding="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Big spender"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold">
+
+        </TextView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Big_spendereView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
 
 
 </RelativeLayout>

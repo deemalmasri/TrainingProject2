@@ -1,6 +1,9 @@
 package com.example.trainingproject2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -28,17 +32,29 @@ public class MainActivity extends AppCompatActivity {
     String term =null;
     SearchView search_btn ;
     MyCustomAdapter dataAdapter = null;
-    ListView listView;
+
+    RecyclerView cost_recyclerView ;
+    RecyclerView bit_recyclerView ;
+    RecyclerView big_recyclerView ;
     List<Bobj.Business> businesses_List;
-    private View contactview ;
+    List<Bobj.Business> cost_businesses_List;
+    List<Bobj.Business> bit_businesses_List;
+    List<Bobj.Business> big_businesses_List;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = (ListView) findViewById(R.id.listView1);
-        listView.setAdapter(dataAdapter);
+        cost_recyclerView = findViewById(R.id.Cost_effectiveView);
+        bit_recyclerView=findViewById(R.id.Bit_PriceirveView);
+        big_recyclerView=findViewById(R.id.Big_spendereView);
+        cost_businesses_List =new ArrayList<>();
+        bit_businesses_List =new ArrayList<>();
+        big_businesses_List =new ArrayList<>();
+
+
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
@@ -66,15 +82,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Bobj> call, Response<Bobj> response) {
                 Bobj obj_list = response.body();
-              businesses_List =obj_list.getBusinesses();
-                dataAdapter = new MyCustomAdapter(MainActivity.this, R.layout.resturent_list, businesses_List);
-                listView.setAdapter(dataAdapter);
+                businesses_List =obj_list.getBusinesses();
+                businesse_Filter(businesses_List);
+                Log.d("result", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
+                setRecyclerview(cost_businesses_List,cost_recyclerView);
+                setRecyclerview(bit_businesses_List,bit_recyclerView);
+                setRecyclerview(big_businesses_List,big_recyclerView);
                 Log.d("result", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
 
 
             }
-
-
 
             @Override
             public void onFailure(Call<Bobj> call, Throwable t) {
@@ -83,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
 
         search_btn =(SearchView) findViewById(R.id.search_view);
         search_btn.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -111,8 +127,15 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<Bobj> call, Response<Bobj> response) {
                     Bobj obj_list = response.body();
                     businesses_List =obj_list.getBusinesses();
-                    dataAdapter = new MyCustomAdapter(MainActivity.this, R.layout.resturent_list, businesses_List);
-                    listView.setAdapter(dataAdapter);
+                    cost_businesses_List.clear();
+                    bit_businesses_List .clear();
+                    big_businesses_List.clear();
+                    businesse_Filter(businesses_List);
+                    setRecyclerview(cost_businesses_List,cost_recyclerView);
+                    setRecyclerview(bit_businesses_List,bit_recyclerView);
+                    setRecyclerview(big_businesses_List,big_recyclerView);
+
+
                     Log.d("result", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
 
 
@@ -130,6 +153,30 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+    }
+    public void businesse_Filter(List<Bobj.Business> list){
+
+        for (Bobj.Business obj:list) {
+            if(obj.getPrice().equals("$")) {
+                cost_businesses_List.add(obj);
+            } if(obj.getPrice().equals("$$")){
+                bit_businesses_List.add(obj);
+
+            }
+                if(obj.getPrice().equals("$$$")){
+                big_businesses_List.add(obj);}
+
+
+        }
+    }
+    public  void setRecyclerview (List<Bobj.Business> list ,RecyclerView list_recycle){
+        dataAdapter = new MyCustomAdapter(list);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        list_recycle.setLayoutManager(mLayoutManager);
+        list_recycle.setItemAnimator(new DefaultItemAnimator());
+        list_recycle.setAdapter(dataAdapter);
 
     }
 }
