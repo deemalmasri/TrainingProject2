@@ -20,9 +20,9 @@
     <LinearLayout
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:layout_below="@+id/search_view"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -46,7 +46,7 @@
     <LinearLayout
         android:id="@+id/rlMain2"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:layout_below="@+id/rlMain"
         android:padding="8dp"
         android:orientation="vertical">
@@ -71,7 +71,7 @@
     <LinearLayout
         android:id="@+id/rlMain3"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:layout_below="@+id/rlMain2"
         android:padding="8dp"
         android:orientation="vertical">
