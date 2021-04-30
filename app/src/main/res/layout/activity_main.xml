@@ -5,23 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F5F5"
     tools:context=".MainActivity">
-
-
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_11"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search "
-        />
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="8dp">
+
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="401dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:background="#F4F4F4"
+            android:iconifiedByDefault="false"
+            android:focusedByDefault="false"
+            android:inputType="text"
+            android:queryHint="Search " />
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_below="@+id/search_view"
+        android:layout_height="215dp"
+        android:layout_below="@+id/card_11"
         android:paddingLeft="8dp"
         android:orientation="vertical">
 
@@ -46,9 +60,9 @@
     <LinearLayout
         android:id="@+id/rlMain2"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="215dp"
         android:layout_below="@+id/rlMain"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -71,9 +85,9 @@
     <LinearLayout
         android:id="@+id/rlMain3"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="215dp"
         android:layout_below="@+id/rlMain2"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
         android:orientation="vertical">
 
         <TextView

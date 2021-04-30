@@ -5,7 +5,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -47,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         cost_recyclerView = findViewById(R.id.Cost_effectiveView);
         bit_recyclerView=findViewById(R.id.Bit_PriceirveView);
         big_recyclerView=findViewById(R.id.Big_spendereView);
@@ -136,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     setRecyclerview(big_businesses_List,big_recyclerView);
 
 
-                    Log.d("result", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
+                    Log.d("resultsearch", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
 
 
                 }
@@ -158,16 +165,21 @@ public class MainActivity extends AppCompatActivity {
     public void businesse_Filter(List<Bobj.Business> list){
 
         for (Bobj.Business obj:list) {
-            if(obj.getPrice().equals("$")) {
+            if (obj.getPrice().equals("$")) {
                 cost_businesses_List.add(obj);
-            } if(obj.getPrice().equals("$$")){
-                bit_businesses_List.add(obj);
+            } else {
+                if (obj.getPrice().equals("$$")) {
+                    bit_businesses_List.add(obj);
+
+                }else {
+                    if (obj.getPrice().equals("$$$")) {
+                        big_businesses_List.add(obj);
+                    }else{
+                        cost_businesses_List.add(obj);
+                    }
+                }
 
             }
-                if(obj.getPrice().equals("$$$")){
-                big_businesses_List.add(obj);}
-
-
         }
     }
     public  void setRecyclerview (List<Bobj.Business> list ,RecyclerView list_recycle){

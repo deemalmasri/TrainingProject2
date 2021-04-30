@@ -9,10 +9,10 @@ public interface Yelp_Service {
     String BASE_URL = "https://api.yelp.com/v3/businesses/";
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
 
-    @GET("search?location=Houston&limit=20")
+    @GET("search?location=Houston&limit=50")
     Call<Bobj> getResturents();
 
-    @GET("search?location=Houston&price=1,2,3&limit=20")
+    @GET("search?location=Houston&price=1,2,3,4&limit=50")
     Call<Bobj> getResturentswhithterm(@Query("term") String term);
 
 
