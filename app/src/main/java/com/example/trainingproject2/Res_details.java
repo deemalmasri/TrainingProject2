@@ -1,11 +1,19 @@
 package com.example.trainingproject2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,12 +33,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Res_details extends AppCompatActivity {
-    private ImageView res_image, photo1, photo2, photo3,ic_closed_image;
+    private ImageView res_image, photo1, photo2, photo3,ic_closed_image,ic_call;
     private TextView res_name, res_rating, time, is_closed, phone;
     Retrofit retrofit;
-
-
-
+    private static final int REQUEST_CALL = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,7 @@ public class Res_details extends AppCompatActivity {
         is_closed = findViewById(R.id.res_avalibality);
         phone = findViewById(R.id.res_phone);
         ic_closed_image=findViewById(R.id.image_avaliable);
+        ic_call =findViewById(R.id.call_image);
 
 
 
@@ -85,6 +92,14 @@ public class Res_details extends AppCompatActivity {
                Picasso.get().load(photos.get(0)).into(photo1);
                Picasso.get().load(photos.get(1)).into(photo2);
                Picasso.get().load(photos.get(2)).into(photo3);
+               ic_call.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       call(res_details.getPhone());
+                   }
+
+
+               });
 
                res_name.setText(res_details.getName());
                if(res_details.getIs_closed()==true){
@@ -107,9 +122,21 @@ public class Res_details extends AppCompatActivity {
            }
        });
 
+    }
+    private void call(String number) {
 
-
-
+        if (number.trim().length() > 0) {
+            if (ContextCompat.checkSelfPermission(Res_details.this,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Res_details.this,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            } else {
+                String dial = "tel:" + number;
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+        } else {
+            Toast.makeText(this , "Enter Phone Number", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

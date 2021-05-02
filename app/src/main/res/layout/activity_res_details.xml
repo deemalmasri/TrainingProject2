@@ -21,8 +21,8 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="78dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
@@ -32,12 +32,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="30dp"
+                android:layout_toStartOf="@+id/res_rating"
                 android:hint="Name"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
@@ -45,16 +46,14 @@
             <TextView
                 android:id="@+id/res_rating"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="207dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="27dp"
-                android:layout_toEndOf="@+id/res_name"
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
                 android:hint="@string/star_text"
-                android:paddingTop="8dp"
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -69,7 +68,7 @@
         android:paddingRight="8dp"
         android:orientation="horizontal">
         <androidx.cardview.widget.CardView
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp">
 
@@ -110,11 +109,11 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp">
         <RelativeLayout
-            android:layout_width="135dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -150,12 +149,12 @@
         </RelativeLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp">
 
         <RelativeLayout
-            android:layout_width="135dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
