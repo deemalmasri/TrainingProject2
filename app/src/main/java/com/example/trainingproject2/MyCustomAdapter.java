@@ -1,6 +1,8 @@
 package com.example.trainingproject2;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,31 +19,47 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.My_ViewHolder>{
+public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.My_ViewHolder> {
     private List<Bobj.Business> resturentList;
-
-      class My_ViewHolder extends RecyclerView.ViewHolder  {
-        TextView displayName;
-        TextView rating;
-        ImageView resPic;
-
-        public My_ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            displayName=itemView.findViewById(R.id.displayName);
-            rating=itemView.findViewById(R.id.display_rating);
-            resPic=itemView.findViewById(R.id.idIVContact);
-
-        }
-    }
     public MyCustomAdapter(List<Bobj.Business> resturentList) {
         this.resturentList = resturentList;
     }
+
+      class My_ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView displayName;
+        TextView rating;
+        ImageView resPic;
+       //   final MyCustomAdapter mAdapter;
+
+        public My_ViewHolder(@NonNull View itemView ) {
+            super(itemView);
+           // this.mAdapter = adapter;
+            displayName=itemView.findViewById(R.id.displayName);
+            rating=itemView.findViewById(R.id.display_rating);
+            resPic=itemView.findViewById(R.id.idIVContact);
+            itemView.setOnClickListener(this);
+
+        }
+
+          @Override
+          public void onClick(View v) {
+              int mPosition = getLayoutPosition();
+              Bobj.Business element = resturentList.get(mPosition);
+              Intent intent=new Intent(v.getContext(),Res_details.class);
+              intent.putExtra("id",element.getId());
+              v.getContext().startActivity(intent);
+
+
+          }
+      }
+
 
     @NonNull
     @Override
     public My_ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.resturent_list, parent, false);
+
         return new My_ViewHolder(itemView);
 
     }
@@ -53,6 +71,7 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.My_Vie
         holder.rating.setText(holder.itemView.getContext().getString(R.string.res_text,
                 business_obj.getRating(),business_obj.getReview_count()));
         Picasso.get().load(business_obj.getImage_url()).into(holder.resPic);
+
 
     }
 
