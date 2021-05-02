@@ -1,21 +1,13 @@
 package com.example.trainingproject2;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.SearchView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ActionBar;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,14 +31,9 @@ public class MainActivity extends AppCompatActivity {
     SearchView search_btn ;
     MyCustomAdapter dataAdapter = null;
 
-    RecyclerView cost_recyclerView ;
-    RecyclerView bit_recyclerView ;
-    RecyclerView big_recyclerView ;
-    List<Bobj.Business> businesses_List;
-    List<Bobj.Business> cost_businesses_List;
-    List<Bobj.Business> bit_businesses_List;
-    List<Bobj.Business> big_businesses_List;
+    RecyclerView cost_recyclerView,bit_recyclerView ,big_recyclerView  ;
 
+    List<Bobj.Business> businesses_List ,cost_businesses_List ,bit_businesses_List ,big_businesses_List , businesses_List_search;
 
 
     @Override
@@ -132,11 +119,13 @@ public class MainActivity extends AppCompatActivity {
             call.enqueue(new Callback<Bobj>() {
                 @Override
                 public void onResponse(Call<Bobj> call, Response<Bobj> response) {
+                    response.body();
                     Bobj obj_list = response.body();
                     businesses_List =obj_list.getBusinesses();
                     cost_businesses_List.clear();
                     bit_businesses_List .clear();
                     big_businesses_List.clear();
+                    Log.d("resultsearch", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
                     businesse_Filter(businesses_List);
                     setRecyclerview(cost_businesses_List,cost_recyclerView);
                     setRecyclerview(bit_businesses_List,bit_recyclerView);
@@ -165,23 +154,29 @@ public class MainActivity extends AppCompatActivity {
     public void businesse_Filter(List<Bobj.Business> list){
 
         for (Bobj.Business obj:list) {
-            if (obj.getPrice().equals("$")) {
-                cost_businesses_List.add(obj);
-            } else {
-                if (obj.getPrice().equals("$$")) {
-                    bit_businesses_List.add(obj);
+            if (obj.getPrice() !=null) {
 
-                }else {
-                    if (obj.getPrice().equals("$$$")) {
-                        big_businesses_List.add(obj);
-                    }else{
-                        cost_businesses_List.add(obj);
+                if (obj.getPrice().equals("$")) {
+                    cost_businesses_List.add(obj);
+                } else {
+                    if (obj.getPrice().equals("$$")) {
+                        bit_businesses_List.add(obj);
+
+                    } else {
+                        if (obj.getPrice().equals("$$$")) {
+                            big_businesses_List.add(obj);
+                        }
                     }
                 }
 
+            }else {
+                cost_businesses_List.add(obj);
             }
-        }
-    }
+                }
+
+            }
+
+
     public  void setRecyclerview (List<Bobj.Business> list ,RecyclerView list_recycle){
         dataAdapter = new MyCustomAdapter(list);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
