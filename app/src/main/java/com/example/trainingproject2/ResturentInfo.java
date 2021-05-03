@@ -11,7 +11,8 @@ public class ResturentInfo {
    private List<String> photos;
    private String phone ;
    private int review_count ;
-   public ResturentInfo(String id ,String name ,String image_url ,Float rating,Boolean is_open_now,List<String> photos ,String  phone,int review_count ){
+   private location location;
+   public ResturentInfo(String id, String name, String image_url, Float rating, Boolean is_open_now, List<String> photos, String phone, int review_count, ResturentInfo.location location){
        this.id=id;
        this.name=name;
        this.image_url=image_url;
@@ -20,6 +21,7 @@ public class ResturentInfo {
        this.photos=photos;
        this.phone=phone;
        this.review_count=review_count;
+       this.location = location;
    }
 
     public String getId() {
@@ -84,5 +86,39 @@ public class ResturentInfo {
 
     public void setReview_count(int review_count) {
         this.review_count = review_count;
+    }
+
+    public ResturentInfo.location getLocation() {
+        return location;
+    }
+
+    public void setLocation(ResturentInfo.location location) {
+        this.location = location;
+    }
+
+    class location {
+       private String city;
+       private String address1;
+
+        location(String city, String address1) {
+            this.city = city;
+            this.address1 = address1;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getAddress1() {
+            return address1;
+        }
+
+        public void setAddress1(String address1) {
+            this.address1 = address1;
+        }
     }
 }

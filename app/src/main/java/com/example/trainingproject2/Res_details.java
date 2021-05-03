@@ -89,6 +89,8 @@ public class Res_details extends AppCompatActivity {
                Picasso.get().load(res_details.getImage_url()).into(res_image);
                ArrayList<String> photos=(ArrayList<String>) res_details.getPhotos();
 
+               time.setText( res_details.getLocation().getAddress1());
+
                Picasso.get().load(photos.get(0)).into(photo1);
                Picasso.get().load(photos.get(1)).into(photo2);
                Picasso.get().load(photos.get(2)).into(photo3);
