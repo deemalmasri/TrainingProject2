@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +42,11 @@ public class Res_details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_res_details);
+
+
+
         String id_from_intent = getIntent().getStringExtra("id");
+        String imageUrl =getIntent().getStringExtra("EXTRA_ITEM");
         Log.d("id", id_from_intent);
         res_image = findViewById(R.id.res_image);
         photo1 = findViewById(R.id.res_photo1);
@@ -54,6 +59,26 @@ public class Res_details extends AppCompatActivity {
         phone = findViewById(R.id.res_phone);
         ic_closed_image=findViewById(R.id.image_avaliable);
         ic_call =findViewById(R.id.call_image);
+      // Bundle extras = getIntent().getExtras();
+//        Bobj.Business RES_OBB = extras.getParcelable("EXTRAITEM");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String imageTransitionName = getIntent().getStringExtra("EXTRA_IMAGE_TRANSITION_NAME");
+            res_image.setTransitionName(imageTransitionName);
+        }
+        Picasso.get().load(imageUrl).noFade().into(res_image, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                supportStartPostponedEnterTransition();
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                supportStartPostponedEnterTransition();
+
+            }
+        });
 
 
 
@@ -86,7 +111,7 @@ public class Res_details extends AppCompatActivity {
            public void onResponse(Call<ResturentInfo> call, Response<ResturentInfo> response) {
                ResturentInfo res_details=response.body();
                Log.d("result22", new GsonBuilder().setPrettyPrinting().create().toJson(response.body()));
-               Picasso.get().load(res_details.getImage_url()).into(res_image);
+              // Picasso.get().load(res_details.getImage_url()).into(res_image);
                ArrayList<String> photos=(ArrayList<String>) res_details.getPhotos();
 
                time.setText( res_details.getLocation().getAddress1());
