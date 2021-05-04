@@ -5,12 +5,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,8 +20,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,16 +38,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     Retrofit retrofit;
-    String term =null;
-    SearchView search_btn ;
+    SearchView search_btn;
     MyCustomAdapter dataAdapter = null;
     double lat;
     double lon;
-    LocationManager locationManager;
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
+    protected Context context;
 
-    RecyclerView cost_recyclerView,bit_recyclerView ,big_recyclerView  ;
-
-    List<Bobj.Business> businesses_List ,cost_businesses_List ,bit_businesses_List ,big_businesses_List , businesses_List_search;
+    RecyclerView cost_recyclerView, bit_recyclerView, big_recyclerView;
+    List<Bobj.Business> businesses_List, cost_businesses_List, bit_businesses_List, big_businesses_List, businesses_List_search;
 
 
     @Override
@@ -56,26 +56,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         cost_recyclerView = findViewById(R.id.Cost_effectiveView);
-        bit_recyclerView=findViewById(R.id.Bit_PriceirveView);
-        big_recyclerView=findViewById(R.id.Big_spendereView);
-        cost_businesses_List =new ArrayList<>();
-        bit_businesses_List =new ArrayList<>();
-        big_businesses_List =new ArrayList<>();
+        bit_recyclerView = findViewById(R.id.Bit_PriceirveView);
+        big_recyclerView = findViewById(R.id.Big_spendereView);
+        cost_businesses_List = new ArrayList<>();
+        bit_businesses_List = new ArrayList<>();
+        big_businesses_List = new ArrayList<>();
 
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        LocationRequest locationRequest = LocationRequest.create();
+//        locationRequest.setInterval(10000);
+//        locationRequest.setFastestInterval(5000);
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION
             },100);
         }
-        getLocation();
-
-
-
 
 
 
@@ -140,6 +136,29 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 return true;
             }
         });
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return;
+        }
+
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, (android.location.LocationListener) this);
+
+
+
+
+
 
     }
     public  void call_Search(String query,Retrofit retrofit){
@@ -216,12 +235,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         list_recycle.setAdapter(dataAdapter);
 
     }
+
     @SuppressLint("MissingPermission")
     private void getLocation() {
 
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 100, (android.location.LocationListener) this);
 
 //            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5, (android.location.LocationListener) MainActivity.this);
@@ -232,13 +252,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+
     @Override
-    public void onLocationChanged(Location location) {
-        lat=location.getLatitude();
-        lon=location.getLongitude();
-         Toast.makeText(this, ""+lat+","+lon, Toast.LENGTH_SHORT).show();
-         Log.d("lat",String.valueOf(lat));
+    public void onLocationChanged(@NonNull Location location) {
+        Toast.makeText(this, ""+location.getLatitude()+","+location.getLongitude(), Toast.LENGTH_SHORT).show();
+
     }
-
-
 }
