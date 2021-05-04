@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -34,14 +36,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Res_details extends AppCompatActivity {
-    private ImageView res_image, photo1, photo2, photo3,ic_closed_image,ic_call;
-    private TextView res_name, res_rating, time, is_closed, phone;
+    private ImageView res_image, photo1, photo2, photo3,ic_closed_image,ic_call,ic_location;
+    private TextView res_name, res_rating, location, is_closed, phone;
     Retrofit retrofit;
     private static final int REQUEST_CALL = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_res_details);
+
 
 
 
@@ -54,13 +57,14 @@ public class Res_details extends AppCompatActivity {
         photo3 = findViewById(R.id.res_photo3);
         res_name = findViewById(R.id.res_name);
         res_rating = findViewById(R.id.res_rating);
-        time = findViewById(R.id.res_time);
+        location = findViewById(R.id.res_time);
         is_closed = findViewById(R.id.res_avalibality);
         phone = findViewById(R.id.res_phone);
         ic_closed_image=findViewById(R.id.image_avaliable);
         ic_call =findViewById(R.id.call_image);
-      // Bundle extras = getIntent().getExtras();
-//        Bobj.Business RES_OBB = extras.getParcelable("EXTRAITEM");
+        ic_location=findViewById(R.id.location_image);
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String imageTransitionName = getIntent().getStringExtra("EXTRA_IMAGE_TRANSITION_NAME");
@@ -114,7 +118,19 @@ public class Res_details extends AppCompatActivity {
               // Picasso.get().load(res_details.getImage_url()).into(res_image);
                ArrayList<String> photos=(ArrayList<String>) res_details.getPhotos();
 
-               time.setText( res_details.getLocation().getAddress1());
+               location.setText( res_details.getLocation().getAddress1());
+               ic_location.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       // Creates an Intent that will load a map of San Francisco
+                       float lat =res_details.getCoordinates().getLatitude();
+                       float lon =res_details.getCoordinates().getLongitude();
+                       Uri gmmIntentUri = Uri.parse("geo:"+lat+","+lon+"?z=20");
+                       Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                       mapIntent.setPackage("com.google.android.apps.maps");
+                       startActivity(mapIntent);
+                   }
+               });
 
                Picasso.get().load(photos.get(0)).into(photo1);
                Picasso.get().load(photos.get(1)).into(photo2);

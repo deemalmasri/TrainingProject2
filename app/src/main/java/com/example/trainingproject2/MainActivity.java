@@ -1,14 +1,25 @@
 package com.example.trainingproject2;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,11 +36,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocationListener {
     Retrofit retrofit;
     String term =null;
     SearchView search_btn ;
     MyCustomAdapter dataAdapter = null;
+    double lat;
+    double lon;
+    LocationManager locationManager;
 
     RecyclerView cost_recyclerView,bit_recyclerView ,big_recyclerView  ;
 
@@ -47,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
         cost_businesses_List =new ArrayList<>();
         bit_businesses_List =new ArrayList<>();
         big_businesses_List =new ArrayList<>();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            },100);
+        }
+        getLocation();
+
+
 
 
 
@@ -188,4 +216,29 @@ public class MainActivity extends AppCompatActivity {
         list_recycle.setAdapter(dataAdapter);
 
     }
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) this);
+
+//            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5, (android.location.LocationListener) MainActivity.this);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lat=location.getLatitude();
+        lon=location.getLongitude();
+         Toast.makeText(this, ""+lat+","+lon, Toast.LENGTH_SHORT).show();
+         Log.d("lat",String.valueOf(lat));
+    }
+
+
 }

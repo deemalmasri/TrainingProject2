@@ -12,7 +12,8 @@ public class ResturentInfo {
    private String phone ;
    private int review_count ;
    private location location;
-   public ResturentInfo(String id, String name, String image_url, Float rating, Boolean is_open_now, List<String> photos, String phone, int review_count, ResturentInfo.location location){
+   private coordinates coordinates;
+   public ResturentInfo(String id, String name, String image_url, Float rating, Boolean is_open_now, List<String> photos, String phone, int review_count, ResturentInfo.location location, ResturentInfo.coordinates coordinates){
        this.id=id;
        this.name=name;
        this.image_url=image_url;
@@ -22,6 +23,7 @@ public class ResturentInfo {
        this.phone=phone;
        this.review_count=review_count;
        this.location = location;
+       this.coordinates = coordinates;
    }
 
     public String getId() {
@@ -96,6 +98,14 @@ public class ResturentInfo {
         this.location = location;
     }
 
+    public ResturentInfo.coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(ResturentInfo.coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
     class location {
        private String city;
        private String address1;
@@ -119,6 +129,31 @@ public class ResturentInfo {
 
         public void setAddress1(String address1) {
             this.address1 = address1;
+        }
+    }
+    class coordinates {
+       private float latitude ;
+        private float longitude;
+
+        coordinates(float latitude, float longitude) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+
+        public float getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(float latitude) {
+            this.latitude = latitude;
+        }
+
+        public float getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(float longitude) {
+            this.longitude = longitude;
         }
     }
 }
