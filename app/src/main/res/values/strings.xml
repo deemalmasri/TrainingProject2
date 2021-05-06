@@ -3,4 +3,6 @@
     <string name="res_text">" %1$.1f Stars, Reviews %2$d"</string>
     <string name="reviews_text">" Reviews %1$d"</string>
     <string name="star_text">"%1$.1f Stars"</string>
+    <string name="facebook_app_id">1988303711335362</string>
+    <string name="fb_login_protocol_scheme">fb1988303711335362</string>
 </resources>
